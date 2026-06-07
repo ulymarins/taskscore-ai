@@ -18,23 +18,9 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${origin}/auth/login?error=auth_callback_failed`)
   }
 
-  // Upsert the user into our public users table so votes can FK to them.
-  await prisma.user.upsert({
-    where: { id: data.user.id },
-    update: {
-      email: data.user.email!,
-      name: (data.user.user_metadata?.["name"] as string | undefined) ?? null,
-      avatarUrl: (data.user.user_metadata?.["avatar_url"] as string | undefined) ?? null,
-    },
-    create: {
-      id: data.user.id,
-      email: data.user.email!,
-      name: (data.user.user_metadata?.["name"] as string | undefined) ?? null,
-      avatarUrl: (data.user.user_metadata?.["avatar_url"] as string | undefined) ?? null,
-    },
-  })
+  // User sync is handled by the handle_auth_user_change DB trigger on auth.users.
+  // No application-level upsert needed here.
 
-  // After login, send to the first domain if no explicit next param
   if (next === "/") {
     const firstDomain = await prisma.domain.findFirst({
       orderBy: { sortOrder: "asc" },
