@@ -60,7 +60,9 @@ export function MarkdownProse({ content, className }: MarkdownProseProps) {
           ),
           hr: () => <hr className="border-zinc-800" />,
         }}
-      />
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   )
 }
