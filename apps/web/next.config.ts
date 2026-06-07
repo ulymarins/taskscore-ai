@@ -6,11 +6,7 @@ const siteHost = process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https?:\/\//, "")
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, "../../"),
-  transpilePackages: ["@taskscore/ui"],
-  serverExternalPackages: ["@prisma/client", "@taskscore/database"],
-  outputFileTracingIncludes: {
-    "/**": ["../../packages/database/generated/client/**/*.node"],
-  },
+  transpilePackages: ["@taskscore/database", "@taskscore/ui"],
   experimental: {
     serverActions: {
       allowedOrigins: ["localhost:3000", siteHost].filter(Boolean) as string[],
