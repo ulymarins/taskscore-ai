@@ -19,11 +19,11 @@ const SCORES = [1, 2, 3, 4, 5] as const
 type ScoreType = (typeof SCORES)[number]
 
 const SCORE_LABELS: Record<ScoreType, { label: string; hint: string }> = {
-  1: { label: "Failing",      hint: "Cannot complete the task reliably — output needs full reconstruction." },
-  2: { label: "Marginal",     hint: "Produces a rough scaffold; material errors require substantial expert correction." },
-  3: { label: "Functional",   hint: "Completes the task under clear conditions; domain review and edits required before use." },
-  4: { label: "Proficient",   hint: "Consistently accurate output; spot-check recommended, minor adjustments only." },
-  5: { label: "Expert-grade", hint: "Meets or exceeds expert baseline; ready for production with standard QA." },
+  1: { label: "Failing",      hint: "Output is broken or fundamentally flawed. Requires complete manual reconstruction to be usable." },
+  2: { label: "Marginal",     hint: "A rough structure emerges, but contains critical errors or logical gaps requiring deep expert correction." },
+  3: { label: "Functional",   hint: "Output is correct under narrow, explicit conditions. Requires domain review and moderate editing before production use." },
+  4: { label: "Proficient",   hint: "Output is consistently accurate. Requires minor cosmetic tweaks or quick spot-checking only." },
+  5: { label: "Production-ready", hint: "Output matches or exceeds the expert human baseline. Ready for deployment with standard review." },
 }
 
 interface VoteFormProps {
@@ -163,7 +163,7 @@ export function VoteForm({ taskId, models, isAuthenticated, existingVote }: Vote
 
       {success && (
         <p className="rounded-md border border-emerald-900 bg-emerald-950/50 px-3 py-2 text-sm text-emerald-400">
-          Score submitted. Thank you.
+          Rating recorded successfully.
         </p>
       )}
 

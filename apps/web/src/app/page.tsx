@@ -8,50 +8,50 @@ const SCALE = [
   {
     score: 1,
     label: "Failing",
-    desc: "AI cannot reliably complete the task. Output requires full expert reconstruction — no production value without a rewrite.",
+    desc: "Output is broken or fundamentally flawed. Requires complete manual reconstruction to be usable.",
   },
   {
     score: 2,
     label: "Marginal",
-    desc: "A rough scaffold emerges, but material errors and gaps require substantial correction by a domain expert.",
+    desc: "A rough structure emerges, but contains critical errors or logical gaps requiring deep expert correction.",
   },
   {
     score: 3,
     label: "Functional",
-    desc: "Task is completed under well-defined conditions. Domain review and moderate editing required before any deployment.",
+    desc: "Output is correct under narrow, explicit conditions. Requires domain review and moderate editing before production use.",
   },
   {
     score: 4,
     label: "Proficient",
-    desc: "Output is consistently accurate. Spot-checking recommended; rarely requires more than minor adjustments.",
+    desc: "Output is consistently accurate. Requires minor cosmetic tweaks or quick spot-checking only.",
   },
   {
     score: 5,
-    label: "Expert-grade",
-    desc: "Output meets or exceeds the expert baseline. Ready for production with standard quality review.",
+    label: "Production-ready",
+    desc: "Output matches or exceeds the expert human baseline. Ready for deployment with standard review.",
   },
 ]
 
 const FEATURES = [
   {
     icon: Compass,
-    title: "Cut through overwhelm",
-    desc: "AI is moving too fast. Stop guessing how to use it. Browse a playbook of concrete, verified tasks for work and life.",
+    title: "Reproducible Playbook",
+    desc: "Browse a catalog of structured developer tasks spanning software engineering, DevOps, and legal compliance.",
   },
   {
     icon: Pencil,
-    title: "Editor score",
-    desc: "Domain experts benchmark each prompt and output on a clear readiness scale, defining what is actually possible.",
+    title: "Expert Baseline",
+    desc: "Domain specialists test and score each prompt against a strict execution rubric, defining what is actually possible.",
   },
   {
     icon: Users,
-    title: "Your score",
-    desc: "Execute the prompts in your own setup. Submit your rating to challenge or validate the expert consensus.",
+    title: "Community Verification",
+    desc: "Execute the prompts in your own development setup and submit your rating to validate or challenge the baseline.",
   },
   {
     icon: TrendingUp,
-    title: "The gap",
-    desc: "Spot discrepancies between community ratings and editor scores to find hidden gems or fragile models.",
+    title: "The Delta",
+    desc: "Analyze the gap between community experience and editor scores to find hidden regressions or silent model updates.",
   },
 ]
 
@@ -116,27 +116,27 @@ export default async function HomePage() {
         <div className="relative space-y-6 max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 font-mono text-xs text-zinc-500">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            Open source · Human tested · Community Driven
+            Open source · Human-in-the-loop benchmarks
           </div>
 
           <h1 className="text-4xl font-bold leading-tight tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
-            A verified matrix of{" "}
-            <span className="text-zinc-400">what AI can actually do</span>
+            Empirical benchmarks for{" "}
+            <span className="text-zinc-400">real-world developer tasks</span>
           </h1>
 
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-zinc-500 sm:text-lg">
-            Feeling overwhelmed by AI hype? Stop guessing how to use it. TaskScore.ai is your playbook of verified prompts and readiness scores, helping you discover exactly how to apply AI to specific areas of your day-to-day life and work.
+            TaskScore.ai evaluates language models against specific, reproducible workflows—from multi-stage Dockerfiles to SQL query optimization. No academic proxy tests, just practical execution evaluated by human developers.
           </p>
 
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Button asChild size="lg" className="gap-2 px-6">
               <Link href={user ? appHref : "/auth/login"}>
-                {user ? "See what's been tested" : "Start rating tasks"}
+                {user ? "See the matrix" : "Sign in and rate a task"}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
             {!user && (
-              <p className="text-xs text-zinc-700">Sign in with GitHub or Google. Free.</p>
+              <p className="text-xs text-zinc-700">OAuth authentication via GitHub or Google.</p>
             )}
           </div>
         </div>
@@ -165,7 +165,7 @@ export default async function HomePage() {
         <div className="text-center space-y-2">
           <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">How it works</p>
           <h2 className="text-2xl font-semibold text-zinc-100">
-            Two scores. One honest picture.
+            Baseline scores vs. developer feedback
           </h2>
         </div>
 
@@ -191,10 +191,10 @@ export default async function HomePage() {
           <div className="text-center space-y-2">
             <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">Understanding the Delta</p>
             <h2 className="text-2xl font-semibold text-zinc-100">
-              Decoding the Performance Gap
+              Exposing the Performance Gap
             </h2>
             <p className="mx-auto max-w-lg text-sm text-zinc-500">
-              Delta is the difference between Community Score and Editor Score. It highlights where models surprise us or fall short.
+              The Delta (Δ) is calculated as Community Score minus Editor Score, highlighting where real-world use cases diverge from controlled benchmarks.
             </p>
           </div>
 
@@ -202,28 +202,28 @@ export default async function HomePage() {
             {/* Positive Delta */}
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs text-zinc-500 uppercase tracking-wider">Example A</span>
+                <span className="font-mono text-xs text-zinc-500 uppercase tracking-wider">Scenario A</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-800 bg-emerald-950 px-3 py-1 font-mono text-xs font-semibold text-emerald-400">
                   <TrendingUp className="h-3.5 w-3.5" /> +1.2
                 </span>
               </div>
-              <h3 className="font-semibold text-zinc-200">Model Exceeds Expectations</h3>
+              <h3 className="font-semibold text-zinc-200">Under-promised Capability</h3>
               <p className="text-sm text-zinc-500 leading-relaxed">
-                A positive delta means the community ratings are higher than the editor's initial benchmark. This indicates the model has improved over time or handles diverse real-world edge cases better than anticipated.
+                A positive delta indicates that community ratings are higher than the editor's baseline. This often flags post-release model improvements, fine-tunes, or prompts that perform better under diverse real-world contexts.
               </p>
             </div>
 
             {/* Negative Delta */}
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs text-zinc-500 uppercase tracking-wider">Example B</span>
+                <span className="font-mono text-xs text-zinc-500 uppercase tracking-wider">Scenario B</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-800 bg-amber-950 px-3 py-1 font-mono text-xs font-semibold text-amber-400">
                   <TrendingDown className="h-3.5 w-3.5" /> -1.5
                 </span>
               </div>
-              <h3 className="font-semibold text-zinc-200">Real-World Unreliability</h3>
+              <h3 className="font-semibold text-zinc-200">Fragile Implementations</h3>
               <p className="text-sm text-zinc-500 leading-relaxed">
-                A negative delta means community scores are lower than the editor's baseline. This signals that the model is failing or showing inconsistency when subjected to diverse user prompts and testing criteria.
+                A negative delta indicates that community scores are lower than the editor's baseline. This signals that the model is failing or showing inconsistency when subjected to edge cases not covered in the initial test.
               </p>
             </div>
           </div>
@@ -236,10 +236,10 @@ export default async function HomePage() {
           <div className="text-center space-y-2">
             <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">The Evaluation Landscape</p>
             <h2 className="text-2xl font-semibold text-zinc-100">
-              Beyond the Academic Benchmarks
+              Evaluating Real-World Utility
             </h2>
             <p className="mx-auto max-w-xl text-sm text-zinc-500">
-              Academic scores and chatbot arenas measure lab capability and style preference. TaskScore.ai measures real-world utility.
+              Standard benchmarks and chatbot arenas measure lab capabilities or stylistic preferences. TaskScore.ai measures execution.
             </p>
           </div>
 
@@ -253,11 +253,11 @@ export default async function HomePage() {
                 <h3 className="font-semibold text-zinc-200">Academic Tests</h3>
                 <p className="font-mono text-[10px] text-zinc-600 uppercase">e.g. MMLU, HumanEval</p>
                 <p className="text-sm text-zinc-500 leading-relaxed">
-                  Multiple-choice exams and static coding challenges. Highly susceptible to data contamination and saturation as models train on the test sets.
+                  Multiple-choice tests and static challenges. Highly susceptible to data contamination as newer models train on the test sets.
                 </p>
               </div>
               <div className="border-t border-zinc-900 pt-4">
-                <span className="font-mono text-xs text-amber-500/80">Limits: Contaminated & Saturated</span>
+                <span className="font-mono text-xs text-amber-500/80">Limits: Contamination & Saturation</span>
               </div>
             </div>
 
@@ -270,11 +270,11 @@ export default async function HomePage() {
                 <h3 className="font-semibold text-zinc-200">Chatbot Arenas</h3>
                 <p className="font-mono text-[10px] text-zinc-600 uppercase">e.g. Blind Preference Elo</p>
                 <p className="text-sm text-zinc-500 leading-relaxed">
-                  Blind side-by-side votes on conversational outputs. Measures stylistic preferences (verbosity, politeness) rather than actual correctness or execution.
+                  Blind preference matching. Primarily measures stylistic attributes like verbosity, formatting cleanliness, or politeness, rather than execution correctness.
                 </p>
               </div>
               <div className="border-t border-zinc-900 pt-4">
-                <span className="font-mono text-xs text-amber-500/80">Limits: Bias toward style over truth</span>
+                <span className="font-mono text-xs text-amber-500/80">Limits: Style preference bias</span>
               </div>
             </div>
 
@@ -287,7 +287,7 @@ export default async function HomePage() {
                 <h3 className="font-semibold text-zinc-100">TaskScore.ai</h3>
                 <p className="font-mono text-[10px] text-emerald-500/80 uppercase">Real-world Readiness</p>
                 <p className="text-sm text-zinc-400 leading-relaxed">
-                  We measure task execution. Expert-graded baselines challenged by real-world developers. No proxy metrics, just the honest answer: <em>Can I copy-paste this?</em>
+                  Standardized task execution evaluation. Graded baseline scores challenged by active developers. No proxy metrics—just an honest look at production readiness.
                 </p>
               </div>
               <div className="border-t border-zinc-800 pt-4">
@@ -305,7 +305,7 @@ export default async function HomePage() {
             <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">
               The 1–5 Readiness Scale
             </p>
-            <h2 className="text-2xl font-semibold text-zinc-100">Five levels. No ambiguity.</h2>
+            <h2 className="text-2xl font-semibold text-zinc-100">Standardized Evaluation Rubric</h2>
           </div>
 
           <div className="space-y-2">
@@ -331,14 +331,14 @@ export default async function HomePage() {
       {/* CTA */}
       <section className="flex flex-col items-center gap-6 px-6 py-24 text-center">
         <h2 className="text-2xl font-semibold text-zinc-100 sm:text-3xl">
-          Have an opinion? Put it on record.
+          Contribute your ratings
         </h2>
         <p className="max-w-md text-zinc-500">
-          Every score you submit makes the picture sharper for everyone building with AI.
+          Every evaluation you submit refines the consensus, making it easier for everyone to choose the right model for the right task.
         </p>
         <Button asChild size="lg" className="gap-2 px-8">
           <Link href={user ? appHref : "/auth/login"}>
-            {user ? "See what's been tested" : "Sign in and rate a task"}
+            {user ? "See the matrix" : "Sign in and rate a task"}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>

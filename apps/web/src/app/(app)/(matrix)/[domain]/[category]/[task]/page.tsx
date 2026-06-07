@@ -198,7 +198,7 @@ export default async function TaskPage({ params }: TaskPageProps) {
           </h2>
           {!existingVote && (
             <p className="mt-1 text-xs text-zinc-600">
-              Test it yourself, then score it honestly.
+              Run the prompt locally and evaluate the model's output.
             </p>
           )}
         </div>
