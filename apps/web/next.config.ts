@@ -6,6 +6,9 @@ const siteHost = process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https?:\/\//, "")
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, "../../"),
+  outputFileTracingIncludes: {
+    "/**": ["./generated/client/**/*.node"],
+  },
   transpilePackages: ["@taskscore/database", "@taskscore/ui"],
   experimental: {
     serverActions: {
