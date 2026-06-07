@@ -3,5 +3,5 @@
   "installCommand": "pnpm install",
   "buildCommand": "pnpm --filter @taskscore/database db:generate && pnpm --filter @taskscore/web build",
   "outputDirectory": "apps/web/.next",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- apps/web/ packages/database/"
+  "ignoreCommand": "exit 1"
 }
