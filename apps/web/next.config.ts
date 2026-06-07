@@ -8,12 +8,12 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname, "../../"),
   transpilePackages: ["@taskscore/ui"],
   serverExternalPackages: ["@prisma/client", "@taskscore/database"],
+  outputFileTracingIncludes: {
+    "/**": ["../../packages/database/generated/client/**/*.node"],
+  },
   experimental: {
     serverActions: {
       allowedOrigins: ["localhost:3000", siteHost].filter(Boolean) as string[],
-    },
-    outputFileTracingIncludes: {
-      "/**": ["../../packages/database/generated/client/**/*.node"],
     },
   },
 }
