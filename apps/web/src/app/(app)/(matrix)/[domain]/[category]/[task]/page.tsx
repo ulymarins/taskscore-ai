@@ -76,113 +76,50 @@ export default async function TaskPage({ params }: TaskPageProps) {
   const resources = parseResources(task.resources)
 
   return (
-    // Two-pane grid: left editorial, right sticky toolkit
-    <div className="grid min-h-full grid-cols-1 lg:grid-cols-[1fr_380px]">
+    <div className="mx-auto max-w-4xl space-y-10 px-6 py-8 lg:px-10 lg:py-12">
 
-      {/* ── LEFT PANE — Editorial "The Why" ─────────────────────────── */}
-      <div className="space-y-10 border-b border-zinc-800 p-6 lg:border-b-0 lg:border-r lg:p-10">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-1 font-mono text-xs text-zinc-600">
+        <Link href={`/${domainSlug}`} className="transition-colors hover:text-zinc-400">
+          {task.category.domain.name}
+        </Link>
+        <ChevronRight className="h-3 w-3" />
+        <Link
+          href={`/${domainSlug}?category=${categorySlug}`}
+          className="transition-colors hover:text-zinc-400"
+        >
+          {task.category.name}
+        </Link>
+      </nav>
 
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-1 font-mono text-xs text-zinc-600">
-          <Link href={`/${domainSlug}`} className="transition-colors hover:text-zinc-400">
-            {task.category.domain.name}
-          </Link>
-          <ChevronRight className="h-3 w-3" />
-          <Link
-            href={`/${domainSlug}?category=${categorySlug}`}
-            className="transition-colors hover:text-zinc-400"
-          >
-            {task.category.name}
-          </Link>
-        </nav>
+      {/* Title + description */}
+      <header className="space-y-3">
+        <h1 className="text-3xl font-semibold leading-tight text-zinc-100">{task.name}</h1>
+        <p className="max-w-prose leading-relaxed text-zinc-400">{task.description}</p>
+      </header>
 
-        {/* Title + description */}
-        <div className="space-y-3">
-          <h1 className="text-2xl font-semibold leading-snug text-zinc-100">{task.name}</h1>
-          <p className="max-w-prose leading-relaxed text-zinc-400">{task.description}</p>
-        </div>
-
-        {/* Score summary (visible on mobile; right pane shows it on desktop) */}
-        <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-5 lg:hidden">
-          <div className="flex items-start justify-between gap-4">
-            <ScoreDisplay
+      {/* Score panel */}
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-6">
+        <div className="flex items-start justify-between gap-4">
+          <ScoreDisplay
+            editorScore={task.editorScore}
+            communityScore={communityScore}
+            voteCount={voteCount}
+          />
+          <div className="pt-6">
+            <DeltaBadge
               editorScore={task.editorScore}
               communityScore={communityScore}
               voteCount={voteCount}
             />
-            <div className="pt-6">
-              <DeltaBadge
-                editorScore={task.editorScore}
-                communityScore={communityScore}
-                voteCount={voteCount}
-              />
-            </div>
           </div>
         </div>
 
-        <Separator className="bg-zinc-800" />
-
-        {/* Rationale */}
-        {task.rationale ? (
-          <section className="space-y-4">
-            <h2 className="text-lg font-semibold text-zinc-100">
-              The Verdict: Why a {task.editorScore}/5?
-            </h2>
-            <MarkdownProse content={task.rationale} />
-          </section>
-        ) : (
-          <section className="space-y-3">
-            <h2 className="text-lg font-semibold text-zinc-100">
-              The Verdict: Why a {task.editorScore}/5?
-            </h2>
-            <p className="text-sm text-zinc-600 italic">
-              Editorial rationale coming soon.
-            </p>
-          </section>
-        )}
-
-        {/* Use Cases */}
-        {task.useCases && (
+        {task.notes && (
           <>
-            <Separator className="bg-zinc-800" />
-            <section className="space-y-4">
-              <h2 className="text-lg font-semibold text-zinc-100">Real-World Use Cases</h2>
-              <MarkdownProse content={task.useCases} />
-            </section>
-          </>
-        )}
-
-        {/* Resources */}
-        {resources.length > 0 && (
-          <>
-            <Separator className="bg-zinc-800" />
-            <section className="space-y-4">
-              <h2 className="text-lg font-semibold text-zinc-100">Resources</h2>
-              <ul className="space-y-2">
-                {resources.map((r) => (
-                  <li key={r.url}>
-                    <a
-                      href={r.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-zinc-200"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-700 transition-colors group-hover:text-zinc-500" />
-                      {r.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </>
-        )}
-
-        {/* Editor note (if present and no full rationale) */}
-        {task.notes && !task.rationale && (
-          <>
-            <Separator className="bg-zinc-800" />
-            <p className="text-sm text-zinc-500">
-              <span className="mr-1.5 font-mono text-xs uppercase tracking-wider text-zinc-700">
+            <Separator className="my-4 bg-zinc-800" />
+            <p className="text-xs text-zinc-500">
+              <span className="mr-1.5 font-mono text-[10px] uppercase tracking-wider text-zinc-700">
                 Editor note:
               </span>
               {task.notes}
@@ -191,115 +128,87 @@ export default async function TaskPage({ params }: TaskPageProps) {
         )}
       </div>
 
-      {/* ── RIGHT PANE — Sticky Toolkit "The How" ───────────────────── */}
-      <div className="hidden lg:block">
-        <div
-          className="sticky top-0 flex max-h-[calc(100vh-2.75rem)] flex-col gap-6 overflow-y-auto p-6 scrollbar-thin"
-        >
-          {/* Score panel */}
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-5 space-y-4">
-            <div className="flex items-start justify-between gap-4">
-              <ScoreDisplay
-                editorScore={task.editorScore}
-                communityScore={communityScore}
-                voteCount={voteCount}
-              />
-              <div className="pt-6">
-                <DeltaBadge
-                  editorScore={task.editorScore}
-                  communityScore={communityScore}
-                  voteCount={voteCount}
-                />
-              </div>
-            </div>
+      {/* Rationale */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold text-zinc-100">
+          The Verdict: Why a {task.editorScore}/5?
+        </h2>
+        {task.rationale ? (
+          <MarkdownProse content={task.rationale} />
+        ) : (
+          <p className="text-sm italic text-zinc-600">Editorial rationale coming soon.</p>
+        )}
+      </section>
 
-            {task.notes && (
-              <>
-                <Separator className="bg-zinc-800" />
-                <p className="text-xs text-zinc-500">
-                  <span className="mr-1.5 font-mono text-[10px] uppercase tracking-wider text-zinc-700">
-                    Editor note:
-                  </span>
-                  {task.notes}
-                </p>
-              </>
-            )}
-          </div>
+      {/* Use Cases */}
+      {task.useCases && (
+        <section className="space-y-4">
+          <h2 className="text-lg font-semibold text-zinc-100">Real-World Use Cases</h2>
+          <MarkdownProse content={task.useCases} />
+        </section>
+      )}
 
-          {/* Verified Prompt */}
-          <div className="space-y-2">
-            <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">
-              Verified Prompt
-            </p>
-            <PromptBlock prompt={task.prompt} />
-          </div>
+      {/* Verified Prompt */}
+      <section className="space-y-3">
+        <h2 className="font-mono text-xs uppercase tracking-wider text-zinc-500">
+          Verified Prompt
+        </h2>
+        <PromptBlock prompt={task.prompt} />
+      </section>
 
-          {/* Expected Output */}
-          <div className="space-y-2">
-            <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">
-              Expected Output
-            </p>
-            <div className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 p-4">
-              <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-xs leading-relaxed text-zinc-400 scrollbar-thin">
-                {task.expectedOutput}
-              </pre>
-            </div>
-          </div>
-
-          <Separator className="bg-zinc-800" />
-
-          {/* Vote form */}
-          <div className="space-y-3">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">
-                {existingVote ? "Your Rating" : "Rate This Task"}
-              </p>
-              {!existingVote && (
-                <p className="mt-1 text-xs text-zinc-700">
-                  Test it yourself, then score it honestly.
-                </p>
-              )}
-            </div>
-            <VoteForm
-              taskId={task.id}
-              models={models}
-              isAuthenticated={!!user}
-              existingVote={existingVote}
-            />
-          </div>
+      {/* Expected Output */}
+      <section className="space-y-3">
+        <h2 className="font-mono text-xs uppercase tracking-wider text-zinc-500">
+          Expected Output
+        </h2>
+        <div className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 p-5">
+          <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-sm leading-relaxed text-zinc-400 scrollbar-thin">
+            {task.expectedOutput}
+          </pre>
         </div>
-      </div>
+      </section>
 
-      {/* Mobile-only: toolkit below editorial */}
-      <div className="space-y-6 border-t border-zinc-800 p-6 lg:hidden">
-        <div className="space-y-2">
-          <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">Verified Prompt</p>
-          <PromptBlock prompt={task.prompt} />
-        </div>
+      {/* Resources */}
+      {resources.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-lg font-semibold text-zinc-100">Resources</h2>
+          <ul className="space-y-2">
+            {resources.map((r) => (
+              <li key={r.url}>
+                <a
+                  href={r.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-zinc-200"
+                >
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-700 transition-colors group-hover:text-zinc-500" />
+                  {r.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
-        <div className="space-y-2">
-          <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">Expected Output</p>
-          <div className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 p-4">
-            <pre className="overflow-x-auto whitespace-pre-wrap font-mono text-xs leading-relaxed text-zinc-400 scrollbar-thin">
-              {task.expectedOutput}
-            </pre>
-          </div>
-        </div>
-
-        <Separator className="bg-zinc-800" />
-
-        <div className="space-y-3">
-          <p className="font-mono text-xs uppercase tracking-wider text-zinc-600">
+      {/* Vote form */}
+      <section className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-6 space-y-4">
+        <div>
+          <h2 className="font-mono text-xs uppercase tracking-wider text-zinc-500">
             {existingVote ? "Your Rating" : "Rate This Task"}
-          </p>
-          <VoteForm
-            taskId={task.id}
-            models={models}
-            isAuthenticated={!!user}
-            existingVote={existingVote}
-          />
+          </h2>
+          {!existingVote && (
+            <p className="mt-1 text-xs text-zinc-600">
+              Test it yourself, then score it honestly.
+            </p>
+          )}
         </div>
-      </div>
+        <VoteForm
+          taskId={task.id}
+          models={models}
+          isAuthenticated={!!user}
+          existingVote={existingVote}
+        />
+      </section>
     </div>
   )
 }
