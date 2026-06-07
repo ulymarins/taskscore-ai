@@ -1,0 +1,134 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated/client"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─────────────────────────────────────────────
+// LEVEL 1 — Domain
+// ─────────────────────────────────────────────
+model Domain {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
+  description String?
+  sortOrder   Int        @default(0)
+  categories  Category[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([slug])
+  @@map("domains")
+}
+
+// ─────────────────────────────────────────────
+// LEVEL 2 — Category
+// ─────────────────────────────────────────────
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String
+  description String?
+  sortOrder   Int      @default(0)
+  domain      Domain   @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  domainId    String
+  tasks       Task[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([domainId, slug])
+  @@index([domainId])
+  @@index([slug])
+  @@map("categories")
+}
+
+// ─────────────────────────────────────────────
+// LEVEL 3 — Task
+// ─────────────────────────────────────────────
+model Task {
+  id             String    @id @default(cuid())
+  name           String
+  slug           String
+  description    String
+  prompt         String
+  expectedOutput String
+  editorScore    Int
+  notes          String?
+  rationale      String?
+  useCases       String?
+  resources      Json?
+  category       Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId     String
+  votes          Vote[]
+  publishedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@unique([categoryId, slug])
+  @@index([categoryId])
+  @@index([slug])
+  @@map("tasks")
+}
+
+// ─────────────────────────────────────────────
+// AI Models — controlled vocabulary
+// ─────────────────────────────────────────────
+model AiModel {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  provider  String
+  votes     Vote[]
+  createdAt DateTime @default(now())
+
+  @@map("ai_models")
+}
+
+// ─────────────────────────────────────────────
+// User — mirrors Supabase auth.users
+// ─────────────────────────────────────────────
+model User {
+  id        String   @id
+  email     String   @unique
+  name      String?
+  avatarUrl String?
+  role      UserRole @default(COMMUNITY)
+  votes     Vote[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+enum UserRole {
+  COMMUNITY
+  EDITOR
+  ADMIN
+}
+
+// ─────────────────────────────────────────────
+// Vote — one per user per task per model
+// ─────────────────────────────────────────────
+model Vote {
+  id        String   @id @default(cuid())
+  score     Int
+  notes     String?
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  aiModel   AiModel  @relation(fields: [aiModelId], references: [id])
+  aiModelId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([taskId, userId, aiModelId])
+  @@index([taskId])
+  @@index([userId])
+  @@map("votes")
+}
