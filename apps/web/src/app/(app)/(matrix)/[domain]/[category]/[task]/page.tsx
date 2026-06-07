@@ -148,12 +148,17 @@ export default async function TaskPage({ params }: TaskPageProps) {
         </section>
       )}
 
-      {/* Verified Prompt */}
+      {/* System Instruction / Directive */}
       <section className="space-y-3">
         <h2 className="font-mono text-xs uppercase tracking-wider text-zinc-500">
-          Verified Prompt
+          System Instruction / Directive
         </h2>
-        <PromptBlock prompt={task.prompt} />
+        <PromptBlock
+          prompt={task.prompt}
+          taskName={task.name}
+          expectedOutput={task.expectedOutput}
+          notes={task.notes}
+        />
       </section>
 
       {/* Expected Output */}

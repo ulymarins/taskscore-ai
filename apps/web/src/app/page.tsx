@@ -8,27 +8,27 @@ const SCALE = [
   {
     score: 1,
     label: "Failing",
-    desc: "Output is broken or fundamentally flawed. Requires complete manual reconstruction to be usable.",
+    desc: "Agent cannot execute autonomously without breaking the build, hallucinating dependencies, or producing output that requires complete manual reconstruction.",
   },
   {
     score: 2,
     label: "Marginal",
-    desc: "A rough structure emerges, but contains critical errors or logical gaps requiring deep expert correction.",
+    desc: "Agent produces a scaffold autonomously, but contains critical errors or logical gaps that require deep expert correction before integration.",
   },
   {
     score: 3,
     label: "Functional",
-    desc: "Output is correct under narrow, explicit conditions. Requires domain review and moderate editing before production use.",
+    desc: "Agent executes the task autonomously under narrow, explicit conditions. Output requires domain review and moderate editing before production integration.",
   },
   {
     score: 4,
     label: "Proficient",
-    desc: "Output is consistently accurate. Requires minor cosmetic tweaks or quick spot-checking only.",
+    desc: "Agent executes the task reliably with minimal human intervention. Output requires only spot-checking and minor cosmetic adjustments.",
   },
   {
     score: 5,
     label: "Production-ready",
-    desc: "Output matches or exceeds the expert human baseline. Ready for deployment with standard review.",
+    desc: "Agent operates at or above the expert human baseline. Output can be merged with standard review and no manual correction.",
   },
 ]
 
@@ -125,7 +125,7 @@ export default async function HomePage() {
           </h1>
 
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-zinc-500 sm:text-lg">
-            TaskScore.ai evaluates language models against specific, reproducible workflows—from multi-stage Dockerfiles to SQL query optimization. No academic proxy tests, just practical execution evaluated by human developers.
+            TaskScore.ai benchmarks autonomous AI agents against specific developer tasks. Find out where current models fail, and export optimized directives and rules directly into your IDE config or agent settings.
           </p>
 
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
