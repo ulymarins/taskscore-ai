@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
     serverActions: {
       allowedOrigins: ["localhost:3000", siteHost].filter(Boolean) as string[],
     },
+    outputFileTracingIncludes: {
+      "/**": ["../../packages/database/generated/client/**/*.node"],
+    },
   },
 }
 
