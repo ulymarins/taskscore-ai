@@ -103,8 +103,8 @@ export function AppSidebar({ domains }: AppSidebarProps) {
                                     : "text-zinc-500 hover:bg-zinc-800/40 hover:text-zinc-300"
                                 )}
                               >
-                                <Link href={`/${domain.slug}?category=${category.slug}`} className="flex w-full items-center">
-                                  {category.name}
+                                <Link href={`/${domain.slug}?category=${category.slug}`}>
+                                  <span className="truncate">{category.name}</span>
                                 </Link>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
