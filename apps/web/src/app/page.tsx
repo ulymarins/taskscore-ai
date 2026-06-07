@@ -36,7 +36,7 @@ const FEATURES = [
   {
     icon: Compass,
     title: "Reproducible Playbook",
-    desc: "Browse a catalog of structured developer tasks spanning software engineering, DevOps, and legal compliance.",
+    desc: "Browse a catalog of structured developer tasks — code review, DevOps, system design, debugging, refactoring, and the rest of the craft.",
   },
   {
     icon: Pencil,
@@ -120,8 +120,8 @@ export default async function HomePage() {
           </div>
 
           <h1 className="text-4xl font-bold leading-tight tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
-            Empirical benchmarks for{" "}
-            <span className="text-zinc-400">real-world developer tasks</span>
+            Real benchmarks for{" "}
+            <span className="text-zinc-400">developer tasks</span>
           </h1>
 
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-zinc-500 sm:text-lg">
