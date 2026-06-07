@@ -1,0 +1,7 @@
+{
+  "framework": "nextjs",
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "cd ../.. && pnpm --filter @taskscore/database db:generate && pnpm --filter @taskscore/web build",
+  "outputDirectory": ".next",
+  "ignoreCommand": "exit 1"
+}
